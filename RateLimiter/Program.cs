@@ -7,6 +7,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.ConfigureSwaggerGen(setup =>
+{
+    setup.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Weather Forecasts",
+        Version = "v1"
+    });
+});
+
 var app = builder.Build();
 
 // Azure API Management needs the Swagger definitions to always be present, regardless of the application's environment
