@@ -11,7 +11,7 @@ builder.Services.ConfigureSwaggerGen(setup =>
 {
     setup.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {
-        Title = "Weather Forecasts",
+        Title = "Rate Limiter",
         Version = "v1"
     });
 });
