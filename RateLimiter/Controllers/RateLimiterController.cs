@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace RateLimiter.Controllers
 {
@@ -21,7 +23,10 @@ namespace RateLimiter.Controllers
             {
                 return Redirect("https://nataliyap.com/index.html");
             }
-            return NotFound();
+
+            var message = $"Too many requests within the last {Config.RefillRateInSeconds} seconds.";
+
+            return new ObjectResult(message) { StatusCode = 429 };
         }
     }
 }
