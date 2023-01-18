@@ -14,9 +14,14 @@ namespace RateLimiter.Controllers
         }
 
         [HttpGet(Name = "GetRateLimiter")]
-        public RedirectResult Get()
+        public ActionResult Get()
         {
-            return Redirect("https://nataliyap.com/index.html");
+            var rl = RateLimiterSingleton.Instance;
+            if (rl.ShouldForwardRequest() == true)
+            {
+                return Redirect("https://nataliyap.com/index.html");
+            }
+            return NotFound();
         }
     }
 }
