@@ -13,7 +13,7 @@
                     bucket.Refill();
                     Console.WriteLine($"{DateTime.Now}: Bucket refilled");
 
-                    Thread.Sleep(Config.RefillRateInMilliseconds);
+                    Thread.Sleep(Config.RefillRateInSeconds * 1000);
                 }
             }
         }

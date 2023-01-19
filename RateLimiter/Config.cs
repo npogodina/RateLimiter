@@ -2,7 +2,7 @@
 {
     public class Config
     {
-        public const int RefillRateInMilliseconds = 10000;
+        public const int RefillRateInSeconds = 60;
         public const int BucketSize = 3;
     }
 }

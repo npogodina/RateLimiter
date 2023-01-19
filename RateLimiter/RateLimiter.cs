@@ -13,6 +13,8 @@
 
         public int Tokens { get; private set; }
 
+        public DateTime LastRefilled { get; private set; }
+
         public RateLimiter()
         {
             _bucketSize = Config.BucketSize;
@@ -33,6 +35,7 @@
         public void Refill()
         {
             Tokens = Config.BucketSize;
+            LastRefilled = DateTime.Now;
         }
     }
 
