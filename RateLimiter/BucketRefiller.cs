@@ -8,8 +8,11 @@
             {
                 if (bucket.Tokens < Config.BucketSize)
                 {
+                    Console.WriteLine($"{DateTime.Now}: {bucket.Tokens}/{Config.BucketSize} available.");
+                    
                     bucket.Refill();
-                    Console.WriteLine("Bucket refilled");
+                    Console.WriteLine($"{DateTime.Now}: Bucket refilled");
+
                     Thread.Sleep(Config.RefillRateInMilliseconds);
                 }
             }

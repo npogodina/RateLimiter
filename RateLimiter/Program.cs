@@ -44,8 +44,12 @@ thread1.Start();
 thread2.Start();
 
 
-// add lock
-// display timestamp in bucket refilled
+// Only once instance of Rate Limiter is running
+// Not thread-safe / Concurrency issue
+// - Refiller didn't refill although should have => will refill next cycle
+// - Limiter rejected a call although should not have => well, try again
+
+// Where to add lock?
 // display when to try again
 // publish to Azure
 // check if publishing to Azure is okay to have a public Github repo
