@@ -1,32 +1,44 @@
 ﻿namespace RateLimiter
 {
-    public class RateLimiter
+    public interface IBucket
+    {
+        int Tokens { get; }
+
+        void Refill();
+    }
+
+    public class RateLimiter : IBucket
     {
         private readonly int _bucketSize;
 
-        public static int AvailableTokens { get; private set; }
+        public int Tokens { get; private set; }
 
-        public RateLimiter(int bucketSize)
+        public RateLimiter()
         {
-            _bucketSize = bucketSize;
-            AvailableTokens = _bucketSize;
+            _bucketSize = Config.BucketSize;
+            Tokens = _bucketSize;
         }
 
         public bool ShouldForwardRequest()
         {
-            if (AvailableTokens > 0)
+            if (Tokens > 0)
             {
-                AvailableTokens--;
+                Tokens--;
                 return true;
             }
 
             return false;
         }
+
+        public void Refill()
+        {
+            Tokens = Config.BucketSize;
+        }
     }
 
     public class RateLimiterSingleton
     {
-        private static RateLimiter _rateLimiter = new RateLimiter(3);
+        private static RateLimiter _rateLimiter = new RateLimiter();
 
         private RateLimiterSingleton()
         {

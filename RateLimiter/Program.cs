@@ -1,3 +1,5 @@
+using RateLimiter;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -33,4 +35,17 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+var bucketRefiller = new BucketRefiller();
+
+var thread1 = new Thread(() => app.Run());
+var thread2 = new Thread(() => bucketRefiller.Refill(RateLimiterSingleton.Instance));
+
+thread1.Start();
+thread2.Start();
+
+
+// add lock
+// display timestamp in bucket refilled
+// display when to try again
+// publish to Azure
+// check if publishing to Azure is okay to have a public Github repo

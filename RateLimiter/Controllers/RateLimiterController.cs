@@ -24,7 +24,7 @@ namespace RateLimiter.Controllers
                 return Redirect("https://nataliyap.com/index.html");
             }
 
-            var message = $"Too many requests within the last {Config.RefillRateInSeconds} seconds.";
+            var message = $"Too many requests within the last {Config.RefillRateInMilliseconds} milliseconds.";
 
             return new ObjectResult(message) { StatusCode = 429 };
         }
