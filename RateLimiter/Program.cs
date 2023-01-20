@@ -50,6 +50,5 @@ thread2.Start();
 // - Limiter rejected a call although should not have => well, try again
 
 // Where to add lock?
-// display when to try again
 // publish to Azure
 // check if publishing to Azure is okay to have a public Github repo
