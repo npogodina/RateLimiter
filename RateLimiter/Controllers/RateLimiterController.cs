@@ -22,8 +22,6 @@ namespace RateLimiter.Controllers
                 return Redirect("https://nataliyap.com/index.html");
             }
 
-            //var retryIn = (((DateTimeOffset)rl.LastRefilled).ToUnixTimeMilliseconds() + Config.RefillRateInSeconds - DateTimeOffset.Now.ToUnixTimeMilliseconds())/1000;
-
             var retryIn = CalculateRetryIn(rl);
             var message = $"Too many requests within the last {Config.RefillRateInSeconds} seconds. Retry in {retryIn} seconds.";
 
@@ -40,7 +38,6 @@ namespace RateLimiter.Controllers
 
             return Convert.ToInt32(nextRefillUnix - nowUnix);
         }
-
         #endregion
     }
 }
