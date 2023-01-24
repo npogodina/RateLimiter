@@ -1,20 +1,32 @@
 ﻿namespace RateLimiter
 {
-    public class BucketRefiller
+    public class BucketRefiller : BackgroundService
     {
-        public void Refill(IBucket bucket)
+        private readonly ILogger<BucketRefiller> _logger;
+
+        public BucketRefiller(ILogger<BucketRefiller> logger)
         {
-            while (true)
+            _logger = logger;
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            var bucket = RateLimiterSingleton.Instance;
+
+            var i = 1;
+            while (!stoppingToken.IsCancellationRequested)
             {
+                Console.WriteLine($"{DateTime.Now}: Checking Tokens in the bucket - loop {i}");
+                Console.WriteLine($"{DateTime.Now}: {bucket.Tokens}/{Config.BucketSize} available.");
+
                 if (bucket.Tokens < Config.BucketSize)
                 {
-                    Console.WriteLine($"{DateTime.Now}: {bucket.Tokens}/{Config.BucketSize} available.");
-                    
                     bucket.Refill();
                     Console.WriteLine($"{DateTime.Now}: Bucket refilled");
-
-                    Thread.Sleep(Config.RefillRateInSeconds * 1000);
                 }
+
+                i++;
+                await Task.Delay(Config.RefillRateInSeconds * 1000); // milliseconds
             }
         }
     }

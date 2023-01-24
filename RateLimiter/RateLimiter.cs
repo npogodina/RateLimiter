@@ -19,6 +19,7 @@
         {
             _bucketSize = Config.BucketSize;
             Tokens = _bucketSize;
+            LastRefilled = DateTime.Now;
         }
 
         public bool ShouldForwardRequest()

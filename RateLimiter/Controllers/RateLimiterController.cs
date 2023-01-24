@@ -24,6 +24,7 @@ namespace RateLimiter.Controllers
 
             var retryIn = CalculateRetryIn(rl);
             var message = $"Too many requests within the last {Config.RefillRateInSeconds} seconds. Retry in {retryIn} seconds.";
+            _logger.LogInformation(message);
 
             return new ObjectResult(message) { StatusCode = 429 };
         }
