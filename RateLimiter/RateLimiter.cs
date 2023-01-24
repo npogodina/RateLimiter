@@ -1,4 +1,6 @@
-﻿namespace RateLimiter
+﻿using System.Net.Sockets;
+
+namespace RateLimiter
 {
     public interface IBucket
     {
@@ -9,16 +11,13 @@
 
     public class RateLimiter : IBucket
     {
-        private readonly int _bucketSize;
-
         public int Tokens { get; private set; }
 
         public DateTime LastRefilled { get; private set; }
 
         public RateLimiter()
         {
-            _bucketSize = Config.BucketSize;
-            Tokens = _bucketSize;
+            Tokens = Config.BucketSize;
             LastRefilled = DateTime.Now;
         }
 
@@ -35,8 +34,16 @@
 
         public void Refill()
         {
-            Tokens = Config.BucketSize;
+            Console.WriteLine($"{DateTime.Now}: {Tokens}/{Config.BucketSize} available.");
+
+            if (Tokens < Config.BucketSize)
+            {
+                Tokens = Config.BucketSize;
+                Console.WriteLine($"{DateTime.Now}: Bucket refilled");
+            }
+
             LastRefilled = DateTime.Now;
+            Console.WriteLine($"{DateTime.Now}: {nameof(LastRefilled)} updated to {LastRefilled}");
         }
     }
 

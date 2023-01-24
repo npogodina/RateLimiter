@@ -30,7 +30,6 @@ namespace RateLimiter.Controllers
         }
 
         #region Helpers 
-
         private int CalculateRetryIn(RateLimiter rl)
         {
             var lastRefilledUnix = ((DateTimeOffset)rl.LastRefilled).ToUnixTimeSeconds();

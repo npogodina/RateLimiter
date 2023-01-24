@@ -17,13 +17,8 @@
             while (!stoppingToken.IsCancellationRequested)
             {
                 Console.WriteLine($"{DateTime.Now}: Checking Tokens in the bucket - loop {i}");
-                Console.WriteLine($"{DateTime.Now}: {bucket.Tokens}/{Config.BucketSize} available.");
 
-                if (bucket.Tokens < Config.BucketSize)
-                {
-                    bucket.Refill();
-                    Console.WriteLine($"{DateTime.Now}: Bucket refilled");
-                }
+                bucket.Refill();
 
                 i++;
                 await Task.Delay(Config.RefillRateInSeconds * 1000); // milliseconds
