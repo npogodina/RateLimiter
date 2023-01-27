@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging.AzureAppServices;
 using RateLimiter;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddHostedService<BucketRefiller>(); // Background service
+
+//builder.Services.AddSingleton<RateLimiter.RateLimiter>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -17,6 +20,18 @@ builder.Services.ConfigureSwaggerGen(setup =>
         Title = "Rate Limiter",
         Version = "v1"
     });
+});
+
+builder.Logging.AddAzureWebAppDiagnostics();
+builder.Services.Configure<AzureFileLoggerOptions>(options =>
+{
+    options.FileName = "azure-diagnostics-";
+    options.FileSizeLimit = 50 * 1024;
+    options.RetainedFileCountLimit = 5;
+});
+builder.Services.Configure<AzureBlobLoggerOptions>(options =>
+{
+    options.BlobName = "log.txt";
 });
 
 var app = builder.Build();
@@ -43,3 +58,8 @@ app.Run();
 // Concurrency issue
 //// - Refiller didn't refill although should have => will refill next cycle
 //// - Limiter rejected a call although should not have => well, try again
+
+
+// Singleton in DI
+// pass logger everywhere
+// Azure logger only logs in Azure Environment

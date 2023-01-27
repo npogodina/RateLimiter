@@ -16,7 +16,7 @@
             var i = 1;
             while (!stoppingToken.IsCancellationRequested)
             {
-                Console.WriteLine($"{DateTime.Now}: Checking Tokens in the bucket - loop {i}");
+                _logger.LogInformation($"{DateTime.Now}: Checking Tokens in the bucket - loop {i}");
 
                 bucket.Refill();
 
