@@ -1,12 +1,12 @@
-﻿using System.Net.Sockets;
-
-namespace RateLimiter
+﻿namespace RateLimiter
 {
     public interface IBucket
     {
         int Tokens { get; }
 
-        void Refill();
+        DateTime LastRefilled { get; }
+
+        bool Refill();
     }
 
     public class RateLimiter : IBucket
@@ -32,18 +32,18 @@ namespace RateLimiter
             return false;
         }
 
-        public void Refill()
+        public bool Refill()
         {
-            Console.WriteLine($"{DateTime.Now}: {Tokens}/{Config.BucketSize} available.");
+            var refilled = false;
 
             if (Tokens < Config.BucketSize)
             {
                 Tokens = Config.BucketSize;
-                Console.WriteLine($"{DateTime.Now}: Bucket refilled");
+                refilled = true;
             }
 
             LastRefilled = DateTime.Now;
-            Console.WriteLine($"{DateTime.Now}: {nameof(LastRefilled)} updated to {LastRefilled}");
+            return refilled;
         }
     }
 

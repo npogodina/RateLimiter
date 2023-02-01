@@ -7,8 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddHostedService<BucketRefiller>(); // Background service
 
-//builder.Services.AddSingleton<RateLimiter.RateLimiter>();
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -58,8 +56,3 @@ app.Run();
 // Concurrency issue
 //// - Refiller didn't refill although should have => will refill next cycle
 //// - Limiter rejected a call although should not have => well, try again
-
-
-// Singleton in DI
-// pass logger everywhere
-// Azure logger only logs in Azure Environment
